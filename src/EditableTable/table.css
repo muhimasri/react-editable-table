@@ -1,21 +1,21 @@
 table {
   border-collapse: collapse;
   margin: 25px 0;
-  font-size: 0.9em;
+  font-size: 14px;
   font-family: sans-serif;
-  min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  width: 720px
 }
 
 table thead tr {
-  background-color: #009879;
+  background-color: #4bbd7f;
   color: #ffffff;
   text-align: left;
 }
 
 table th,
 table td {
-    padding: 12px 15px;
+    padding: 10px 15px;
 }
 
 table tbody tr {
@@ -23,14 +23,44 @@ table tbody tr {
 }
 
 table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
+  background-color: #f6f6f6;
 }
 
 table tbody tr:last-of-type {
-  border-bottom: 2px solid #009879;
+  border-bottom: 2px solid #4bbd7f;
 }
 
 table tbody tr.active-row {
   font-weight: bold;
-  color: #009879;
+  color: #4bbd7f;
+}
+
+table td:first-child input {
+  width: 50px;
+}
+
+table td:nth-child(2) input {
+  width: 120px;
+}
+
+table button {
+  border-radius: 50px;
+    height: 26px;
+    width: 26px;
+    border: 1px solid #ccc;
+    color: #ffb918;
+}
+
+table button[name="cancel"] {
+    color: #7b7b7b;
+}
+
+table button[name="done"] {
+    color: #4bbd7f;
+}
+
+table input, select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
 }
