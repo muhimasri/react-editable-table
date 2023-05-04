@@ -1,3 +1,9 @@
+.table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
 table {
   border-collapse: collapse;
   margin: 25px 0;

@@ -51,7 +51,7 @@ export const EdtiableTable = () => {
   });
 
   return (
-    <>
+    <article className="table-container">
       <table>
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -82,6 +82,6 @@ export const EdtiableTable = () => {
         </tbody>
       </table>
       {/* <pre>{JSON.stringify(data, null, "\t")}</pre> */}
-    </>
+    </article>
   );
 };
