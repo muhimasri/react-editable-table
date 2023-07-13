@@ -1,7 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import "./table.css";
 
-export const EditableCell = ({ getValue, row, column, table }) => {
+type Option = {
+  label: string;
+  value: string;
+};
+
+export const TableCell = ({ getValue, row, column, table }) => {
   const initialValue = getValue();
   const columnMeta = column.columnDef.meta;
   const tableMeta = table.options.meta;
@@ -15,16 +20,18 @@ export const EditableCell = ({ getValue, row, column, table }) => {
     tableMeta?.updateData(row.index, column.id, value);
   };
 
-  const onSelectChange = (e) => {
+  const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setValue(e.target.value);
     tableMeta?.updateData(row.index, column.id, e.target.value);
   };
 
-  if (tableMeta?.selectedRow[row.id]) {
+  if (tableMeta?.editedRows[row.id]) {
     return columnMeta?.type === "select" ? (
       <select onChange={onSelectChange} value={initialValue}>
-        {columnMeta?.options?.map((option) => (
-          <option value={option.value}>{option.label}</option>
+        {columnMeta?.options?.map((option: Option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
         ))}
       </select>
     ) : (

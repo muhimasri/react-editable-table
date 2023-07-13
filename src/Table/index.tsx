@@ -9,19 +9,19 @@ import {
 } from "@tanstack/react-table";
 import { columns } from "./columns";
 
-export const EdtiableTable = () => {
+export const Table = () => {
   const [data, setData] = useState(() => [...defaultData]);
   const [originalData, setOriginalData] = useState(() => [...defaultData]);
-  const [selectedRow, setSelectedRow] = useState({});
+  const [editedRows, setEditedRows] = useState({});
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     meta: {
-      selectedRow,
-      setSelectedRow,
-      revertData: (rowIndex, revert) => {
+      editedRows,
+      setEditedRows,
+      revertData: (rowIndex: number, revert: boolean) => {
         if (revert) {
           setData((old) =>
             old.map((row, index) =>
@@ -34,7 +34,7 @@ export const EdtiableTable = () => {
           );
         }
       },
-      updateData: (rowIndex, columnId, value) => {
+      updateData: (rowIndex: number, columnId: string, value: string) => {
         setData((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {

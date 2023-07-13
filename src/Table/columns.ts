@@ -1,35 +1,35 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import { EditableCell } from './EditableCell'
+import { TableCell } from './TableCell'
 import { Student } from './data'
-import { EditAction } from './EditAction'
+import { EditCell } from './EditCell'
 
 const columnHelper = createColumnHelper<Student>()
 
 export const columns = [
   columnHelper.accessor('id', {
     header: 'Student ID',
-    cell: EditableCell,
+    cell: TableCell,
     meta: {
       type: 'number',
     },
   }),
   columnHelper.accessor('name', {
     header: 'Full Name',
-    cell: EditableCell,
+    cell: TableCell,
     meta: {
       type: 'text',
     },
   }),
   columnHelper.accessor('dateOfBirth', {
     header: 'Date Of Birth',
-    cell: EditableCell,
+    cell: TableCell,
     meta: {
       type: 'date',
     },
   }),
   columnHelper.accessor('major', {
     header: 'Major',
-    cell: EditableCell,
+    cell: TableCell,
     meta: {
       type: 'select',
       options: [
@@ -42,6 +42,6 @@ export const columns = [
   }),
   columnHelper.display({
     id: 'edit',
-    cell: EditAction,
+    cell: EditCell,
   }),
 ]

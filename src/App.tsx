@@ -1,7 +1,7 @@
-import { EdtiableTable } from "./EditableTable";
+import { Table } from "./Table";
 
 function App() {
-  return <EdtiableTable />;
+  return <Table />;
 }
 
 export default App;
