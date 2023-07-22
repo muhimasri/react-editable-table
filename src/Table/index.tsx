@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { data as defaultData } from "./data";
+import { Student, data as defaultData } from "./data";
 import "./table.css";
 
 import {
@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { columns } from "./columns";
+import { FooterCell } from "./FooterCell";
 
 export const Table = () => {
   const [data, setData] = useState(() => [...defaultData]);
@@ -18,6 +19,7 @@ export const Table = () => {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    enableRowSelection: true,
     meta: {
       editedRows,
       setEditedRows,
@@ -46,6 +48,29 @@ export const Table = () => {
             return row;
           })
         );
+      },
+      addRow: () => {
+        const newRow: Student = {
+          studentId: Math.floor(Math.random() * 10000),
+          name: "",
+          dateOfBirth: "",
+          major: "",
+        };
+        const setFunc = (old: Student[]) => [...old, newRow];
+        setData(setFunc);
+        setOriginalData(setFunc);
+      },
+      removeRow: (rowIndex: number) => {
+        const setFilterFunc = (old: Student[]) =>
+          old.filter((_row: Student, index: number) => index !== rowIndex);
+        setData(setFilterFunc);
+        setOriginalData(setFilterFunc);
+      },
+      removeSelectedRows: (selectedRows: number[]) => {
+        const setFilterFunc = (old: Student[]) =>
+          old.filter((_row, index) => !selectedRows.includes(index));
+        setData(setFilterFunc);
+        setOriginalData(setFilterFunc);
       },
     },
   });
@@ -80,6 +105,13 @@ export const Table = () => {
             </tr>
           ))}
         </tbody>
+        <tfoot>
+          <tr>
+            <th colSpan={table.getCenterLeafColumns().length} align="right">
+              <FooterCell table={table} />
+            </th>
+          </tr>
+        </tfoot>
       </table>
       {/* <pre>{JSON.stringify(data, null, "\t")}</pre> */}
     </article>

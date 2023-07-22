@@ -14,18 +14,36 @@ export const EditCell = ({ row, table }) => {
     }
   };
 
-  return meta?.editedRows[row.id] ? (
-    <div className="edit-cell">
-      <button onClick={setEditedRows} name="cancel">
-        X
-      </button>{" "}
-      <button onClick={setEditedRows} name="done">
-        ✔
-      </button>
+  const removeRow = () => {
+    meta?.removeRow(row.index);
+  };
+
+  return (
+    <div className="edit-cell-container">
+      {meta?.editedRows[row.id] ? (
+        <div className="edit-cell-action">
+          <button onClick={setEditedRows} name="cancel">
+            ⚊
+          </button>{" "}
+          <button onClick={setEditedRows} name="done">
+            ✔
+          </button>
+        </div>
+      ) : (
+        <div className="edit-cell-action">
+          <button onClick={setEditedRows} name="edit">
+            ✐
+          </button>
+          <button onClick={removeRow} name="remove">
+            X
+          </button>
+        </div>
+      )}
+      <input
+        type="checkbox"
+        checked={row.getIsSelected()}
+        onChange={row.getToggleSelectedHandler()}
+      />
     </div>
-  ) : (
-    <button onClick={setEditedRows} name="edit">
-      ✐
-    </button>
   );
 };

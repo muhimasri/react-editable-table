@@ -6,7 +6,7 @@ import { EditCell } from './EditCell'
 const columnHelper = createColumnHelper<Student>()
 
 export const columns = [
-  columnHelper.accessor('id', {
+  columnHelper.accessor('studentId', {
     header: 'Student ID',
     cell: TableCell,
     meta: {
