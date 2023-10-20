@@ -18,6 +18,7 @@ export const columns = [
     cell: TableCell,
     meta: {
       type: 'text',
+      required: true,
     },
   }),
   columnHelper.accessor('dateOfBirth', {
@@ -25,6 +26,7 @@ export const columns = [
     cell: TableCell,
     meta: {
       type: 'date',
+      required: true,
     },
   }),
   columnHelper.accessor('major', {
@@ -33,11 +35,13 @@ export const columns = [
     meta: {
       type: 'select',
       options: [
+        { value: '', label: 'None' },
         { value: 'Computer Science', label: 'Computer Science' },
         { value: 'Communications', label: 'Communications' },
         { value: 'Business', label: 'Business' },
         { value: 'Psychology', label: 'Psychology' },
       ],
+      required: true,
     },
   }),
   columnHelper.display({

@@ -88,6 +88,10 @@ table .edit-cell-action button[name='done'] {
   color: #4bbd7f;
 }
 
+table .edit-cell-action button[name='done']:disabled {
+  color: #ccc;
+}
+
 table .edit-cell-action button[name='remove'] {
   color: red;
   background-color: rgb(230, 208, 208);
@@ -114,4 +118,8 @@ table .edit-cell-container {
 table input[type='checkbox'] {
   width: 16px;
   height: 16px;
+}
+
+select:invalid, input:invalid {
+  border: 2px solid red;
 }
