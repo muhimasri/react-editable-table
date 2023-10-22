@@ -19,6 +19,7 @@ export const columns = [
     meta: {
       type: 'text',
       required: true,
+      pattern: '^[a-zA-Z ]+$',
     },
   }),
   columnHelper.accessor('dateOfBirth', {
@@ -27,6 +28,12 @@ export const columns = [
     meta: {
       type: 'date',
       required: true,
+      validate: (value: string) => {
+        const date = new Date(value);
+        const today = new Date();
+        return date <= today;
+      },
+      validationMessage: 'Date cannot be in the future',
     },
   }),
   columnHelper.accessor('major', {
@@ -35,7 +42,7 @@ export const columns = [
     meta: {
       type: 'select',
       options: [
-        { value: '', label: 'None' },
+        { value: '', label: 'Select' },
         { value: 'Computer Science', label: 'Computer Science' },
         { value: 'Communications', label: 'Communications' },
         { value: 'Business', label: 'Business' },

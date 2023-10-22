@@ -11,69 +11,68 @@ export const TableCell = ({ getValue, row, column, table }) => {
   const columnMeta = column.columnDef.meta;
   const tableMeta = table.options.meta;
   const [value, setValue] = useState(initialValue);
-  const [error, setError] = useState("");
+  const [validationMessage, setValidationMessage] = useState("");
 
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
   const onBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    validate(e);
-    tableMeta?.updateData(
-      row.index,
-      column.id,
-      value,
-      !e.target.validity.valid
-    );
+    displayValidationMessage(e);
+    tableMeta?.updateData(row.index, column.id, value);
   };
 
   const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    displayValidationMessage(e);
     setValue(e.target.value);
-    validate(e);
-    tableMeta?.updateData(
-      row.index,
-      column.id,
-      e.target.value,
-      !e.target.validity.valid
-    );
+    tableMeta?.updateData(row.index, column.id, e.target.value);
   };
 
-  const validate = (
-    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  const displayValidationMessage = <
+    T extends HTMLInputElement | HTMLSelectElement
+  >(
+    e: ChangeEvent<T>
   ) => {
-    if (e.target.validity.valid) {
-      setError("");
+    if (columnMeta?.validate) {
+      const isValid = columnMeta.validate(e.target.value);
+      if (!isValid) {
+        e.target.setCustomValidity(columnMeta.validationMessage);
+        setValidationMessage(columnMeta.validationMessage);
+      } else {
+        e.target.setCustomValidity("");
+        setValidationMessage("");
+      }
+    } else if (e.target.validity.valid) {
+      setValidationMessage("");
     } else {
-      setError(e.target.validationMessage);
+      setValidationMessage(e.target.validationMessage);
     }
   };
 
   if (tableMeta?.editedRows[row.id]) {
-    return (
-      <div>
-        {columnMeta?.type === "select" ? (
-          <select
-            onChange={onSelectChange}
-            value={initialValue}
-            required={columnMeta?.required}
-          >
-            {columnMeta?.options?.map((option: Option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <input
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onBlur={onBlur}
-            type={columnMeta?.type || "text"}
-            required={columnMeta?.required}
-          />
-        )}
-        <div>{error}</div>
-      </div>
+    return columnMeta?.type === "select" ? (
+      <select
+        onChange={onSelectChange}
+        value={initialValue}
+        required={columnMeta?.required}
+        title={validationMessage}
+      >
+        {columnMeta?.options?.map((option: Option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    ) : (
+      <input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onBlur={onBlur}
+        type={columnMeta?.type || "text"}
+        required={columnMeta?.required}
+        pattern={columnMeta?.pattern}
+        title={validationMessage}
+      />
     );
   }
   return <span>{value}</span>;
