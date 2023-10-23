@@ -2,8 +2,8 @@ import { MouseEvent } from "react";
 
 export const EditCell = ({ row, table }) => {
   const meta = table.options.meta;
-  const invalidRow = meta?.invalidRows[row.id];
-  const disableSubmit = invalidRow ? Object.values(invalidRow)?.some(item => item === true) : false;
+  const validRow = meta?.validRows[row.id];
+  const disableSubmit = validRow ? Object.values(validRow)?.some(item => !item) : false;
 
   const setEditedRows = (e: MouseEvent<HTMLButtonElement>) => {
     const elName = e.currentTarget.name;

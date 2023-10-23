@@ -19,13 +19,13 @@ export const TableCell = ({ getValue, row, column, table }) => {
 
   const onBlur = (e: ChangeEvent<HTMLInputElement>) => {
     displayValidationMessage(e);
-    tableMeta?.updateData(row.index, column.id, value);
+    tableMeta?.updateData(row.index, column.id, value, e.target.validity.valid);
   };
 
   const onSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     displayValidationMessage(e);
     setValue(e.target.value);
-    tableMeta?.updateData(row.index, column.id, e.target.value);
+    tableMeta?.updateData(row.index, column.id, e.target.value, e.target.validity.valid);
   };
 
   const displayValidationMessage = <
@@ -35,12 +35,12 @@ export const TableCell = ({ getValue, row, column, table }) => {
   ) => {
     if (columnMeta?.validate) {
       const isValid = columnMeta.validate(e.target.value);
-      if (!isValid) {
-        e.target.setCustomValidity(columnMeta.validationMessage);
-        setValidationMessage(columnMeta.validationMessage);
-      } else {
+      if (isValid) {
         e.target.setCustomValidity("");
         setValidationMessage("");
+      } else {
+        e.target.setCustomValidity(columnMeta.validationMessage);
+        setValidationMessage(columnMeta.validationMessage);
       }
     } else if (e.target.validity.valid) {
       setValidationMessage("");
