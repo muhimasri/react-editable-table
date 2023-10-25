@@ -2,6 +2,8 @@ import { MouseEvent } from "react";
 
 export const EditCell = ({ row, table }) => {
   const meta = table.options.meta;
+  const validRow = meta?.validRows[row.id];
+  const disableSubmit = validRow ? Object.values(validRow)?.some(item => !item) : false;
 
   const setEditedRows = (e: MouseEvent<HTMLButtonElement>) => {
     const elName = e.currentTarget.name;
@@ -25,7 +27,7 @@ export const EditCell = ({ row, table }) => {
           <button onClick={setEditedRows} name="cancel">
             ⚊
           </button>{" "}
-          <button onClick={setEditedRows} name="done">
+          <button onClick={setEditedRows} name="done" disabled={disableSubmit}>
             ✔
           </button>
         </div>

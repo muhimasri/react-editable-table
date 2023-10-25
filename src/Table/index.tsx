@@ -14,6 +14,7 @@ export const Table = () => {
   const [data, setData] = useState(() => [...defaultData]);
   const [originalData, setOriginalData] = useState(() => [...defaultData]);
   const [editedRows, setEditedRows] = useState({});
+  const [validRows, setValidRows] = useState({});
 
   const table = useReactTable({
     data,
@@ -23,6 +24,8 @@ export const Table = () => {
     meta: {
       editedRows,
       setEditedRows,
+      validRows,
+      setValidRows,
       revertData: (rowIndex: number, revert: boolean) => {
         if (revert) {
           setData((old) =>
@@ -36,7 +39,7 @@ export const Table = () => {
           );
         }
       },
-      updateData: (rowIndex: number, columnId: string, value: string) => {
+      updateData: (rowIndex: number, columnId: string, value: string, isValid: boolean) => {
         setData((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {
@@ -48,6 +51,10 @@ export const Table = () => {
             return row;
           })
         );
+        setValidRows((old) => ({
+          ...old,
+          [rowIndex]: { ...old[rowIndex], [columnId]: isValid },
+        }));
       },
       addRow: () => {
         const newRow: Student = {
@@ -76,6 +83,7 @@ export const Table = () => {
   });
 
   return (
+
     <article className="table-container">
       <table>
         <thead>
@@ -115,5 +123,6 @@ export const Table = () => {
       </table>
       {/* <pre>{JSON.stringify(data, null, "\t")}</pre> */}
     </article>
+
   );
 };
