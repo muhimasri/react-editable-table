@@ -1,13 +1,13 @@
 import { createColumnHelper } from '@tanstack/react-table'
 import { TableCell } from './TableCell'
-import { Student } from './data'
+import { Student } from './data/types'
 import { EditCell } from './EditCell'
 
 const columnHelper = createColumnHelper<Student>()
 
 export const columns = [
-  columnHelper.accessor('studentId', {
-    header: 'Student ID',
+  columnHelper.accessor('studentNumber', {
+    header: 'Student Id',
     cell: TableCell,
     meta: {
       type: 'number',
