@@ -1,6 +1,6 @@
 import { createColumnHelper } from '@tanstack/react-table'
 import { TableCell } from './TableCell'
-import { Student } from './data/types'
+import { Student } from './types'
 import { EditCell } from './EditCell'
 
 const columnHelper = createColumnHelper<Student>()

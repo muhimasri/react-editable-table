@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Student } from "./data/types";
+import { Student } from "./types";
 import "./table.css";
 
 import {
@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-table";
 import { columns } from "./columns";
 import { FooterCell } from "./FooterCell";
-import useData from "./data/useData";
+import useData from "./useData";
 
 export const Table = () => {
   const { data: originalData, isValidating, addRow, updateRow, deleteRow } = useData("http://localhost:5000/students");

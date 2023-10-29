@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "vite": "vite",
-    "jsonserver": "json-server ./src/Table/data/db.json --watch --port 5000",
+    "jsonserver": "json-server ./src/Table/db.json --watch --port 5000",
     "dev": "concurrently \"npm run jsonserver\" \"npm run vite\"",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
