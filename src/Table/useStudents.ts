@@ -1,9 +1,10 @@
 import useSWR, { mutate } from 'swr';
 import { Student } from './types';
 
-// Function to handle POST requests
-async function updateRequest(url: string, data: Student) {
-  const response = await fetch(url, {
+const url = 'http://localhost:5000/students';
+
+async function updateRequest(id: number, data: Student) {
+  const response = await fetch(`${url}/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -13,7 +14,7 @@ async function updateRequest(url: string, data: Student) {
   return response.json();
 }
 
-async function addRequest(url: string, data: Student) {
+async function addRequest(data: Student) {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
@@ -24,8 +25,8 @@ async function addRequest(url: string, data: Student) {
   return response.json();
 }
 
-async function deleteRequest(url: string) {
-  const response = await fetch(url, {
+async function deleteRequest(id: number) {
+  const response = await fetch(`${url}/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -34,35 +35,31 @@ async function deleteRequest(url: string) {
   return response.json();
 }
 
-async function getRequest(url: string) {
+async function getRequest() {
   const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error('Network response was not ok ' + response.statusText);
-  }
   return response.json();
 }
 
-// Custom hook to handle data fetching and posting
-export default function useData(url: string) {
-  const { data, isLoading, isValidating } = useSWR(url, getRequest);
+export default function useStudents() {
+  const { data, isValidating } = useSWR(url, getRequest);
 
   const updateRow = async (id: number, postData: Student) => {
-    await updateRequest(`${url}/${id}`, postData);
+    await updateRequest(id, postData);
     mutate(url);
   };
 
   const deleteRow = async (id: number) => {
-    await deleteRequest(`${url}/${id}`);
+    await deleteRequest(id);
     mutate(url);
   };
 
   const addRow = async (postData: Student) => {
-    await addRequest(`${url}`, postData);
+    await addRequest(postData);
     mutate(url);
   };
 
   return {
-    data: isLoading ? [] : data,
+    data: data ?? [],
     isValidating,
     addRow,
     updateRow,

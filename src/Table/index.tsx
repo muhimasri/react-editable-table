@@ -9,12 +9,11 @@ import {
 } from "@tanstack/react-table";
 import { columns } from "./columns";
 import { FooterCell } from "./FooterCell";
-import useData from "./useData";
+import useStudents from "./useStudents";
 
 export const Table = () => {
-  const { data: originalData, isValidating, addRow, updateRow, deleteRow } = useData("http://localhost:5000/students");
-  const [data, setData] = useState(() => [...originalData]);
-  // const [originalData, setOriginalData] = useState(() => [...defaultData]);
+  const { data: originalData, isValidating, addRow, updateRow, deleteRow } = useStudents();
+  const [data, setData] = useState<Student[]>([]);
   const [editedRows, setEditedRows] = useState({});
   const [validRows, setValidRows] = useState({});
 
@@ -33,16 +32,15 @@ export const Table = () => {
       setEditedRows,
       validRows,
       setValidRows,
-      revertData: (rowIndex: number, revert: boolean) => {
-        if (revert) {
-          setData((old) =>
-            old.map((row, index) =>
-              index === rowIndex ? originalData[rowIndex] : row
-            )
-          );
-        } else {
-          updateRow(data[rowIndex].id, data[rowIndex]);
-        }
+      revertData: (rowIndex: number) => {
+        setData((old) =>
+          old.map((row, index) =>
+            index === rowIndex ? originalData[rowIndex] : row
+          )
+        );
+      },
+      updateRow: (rowIndex: number) => {
+        updateRow(data[rowIndex].id, data[rowIndex]);
       },
       updateData: (rowIndex: number, columnId: string, value: string, isValid: boolean) => {
         setData((old) =>
