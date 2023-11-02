@@ -62,11 +62,11 @@ export const Table = () => {
       addRow: () => {
         const id = Math.floor(Math.random() * 10000);
         const newRow: Student = {
+          id,
           studentNumber: id,
           name: "",
           dateOfBirth: "",
-          major: "",
-          id
+          major: ""
         };
         addRow(newRow);
       },
