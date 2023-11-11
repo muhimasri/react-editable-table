@@ -4,15 +4,20 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "vite": "vite",
+    "jsonserver": "json-server ./src/Table/db.json --watch --port 5000",
+    "dev": "concurrently \"npm run jsonserver\" \"npm run vite\"",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.8.5",
+    "concurrently": "^8.2.2",
+    "json-server": "^0.17.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

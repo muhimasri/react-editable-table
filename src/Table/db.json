@@ -1,0 +1,32 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "studentNumber": 1111,
+      "name": "Bahar Constantia Masri",
+      "dateOfBirth": "1984-01-04",
+      "major": "Computer Science"
+    },
+    {
+      "id": 2,
+      "studentNumber": 2222,
+      "name": "Harold Nona s",
+      "dateOfBirth": "1961-05-10",
+      "major": "Communications"
+    },
+    {
+      "id": 3,
+      "studentNumber": 3333,
+      "name": "Raginolf Arnulf",
+      "dateOfBirth": "1991-10-12",
+      "major": "Business"
+    },
+    {
+      "id": 4,
+      "studentNumber": 4444,
+      "name": "Marvyn Wendi",
+      "dateOfBirth": "1978-09-24",
+      "major": "Psychology"
+    }
+  ]
+}

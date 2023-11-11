@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Student, data as defaultData } from "./data";
+import { useEffect, useState } from "react";
+import { Student } from "./types";
 import "./table.css";
 
 import {
@@ -9,12 +9,18 @@ import {
 } from "@tanstack/react-table";
 import { columns } from "./columns";
 import { FooterCell } from "./FooterCell";
+import useStudents from "./useStudents";
 
 export const Table = () => {
-  const [data, setData] = useState(() => [...defaultData]);
-  const [originalData, setOriginalData] = useState(() => [...defaultData]);
+  const { data: originalData, isValidating, addRow, updateRow, deleteRow } = useStudents();
+  const [data, setData] = useState<Student[]>([]);
   const [editedRows, setEditedRows] = useState({});
   const [validRows, setValidRows] = useState({});
+
+  useEffect(() => {
+    if (isValidating) return;
+    setData([...originalData]);
+  }, [isValidating]);
 
   const table = useReactTable({
     data,
@@ -26,18 +32,15 @@ export const Table = () => {
       setEditedRows,
       validRows,
       setValidRows,
-      revertData: (rowIndex: number, revert: boolean) => {
-        if (revert) {
-          setData((old) =>
-            old.map((row, index) =>
-              index === rowIndex ? originalData[rowIndex] : row
-            )
-          );
-        } else {
-          setOriginalData((old) =>
-            old.map((row, index) => (index === rowIndex ? data[rowIndex] : row))
-          );
-        }
+      revertData: (rowIndex: number) => {
+        setData((old) =>
+          old.map((row, index) =>
+            index === rowIndex ? originalData[rowIndex] : row
+          )
+        );
+      },
+      updateRow: (rowIndex: number) => {
+        updateRow(data[rowIndex].id, data[rowIndex]);
       },
       updateData: (rowIndex: number, columnId: string, value: string, isValid: boolean) => {
         setData((old) =>
@@ -57,33 +60,28 @@ export const Table = () => {
         }));
       },
       addRow: () => {
+        const id = Math.floor(Math.random() * 10000);
         const newRow: Student = {
-          studentId: Math.floor(Math.random() * 10000),
+          id,
+          studentNumber: id,
           name: "",
           dateOfBirth: "",
-          major: "",
+          major: ""
         };
-        const setFunc = (old: Student[]) => [...old, newRow];
-        setData(setFunc);
-        setOriginalData(setFunc);
+        addRow(newRow);
       },
       removeRow: (rowIndex: number) => {
-        const setFilterFunc = (old: Student[]) =>
-          old.filter((_row: Student, index: number) => index !== rowIndex);
-        setData(setFilterFunc);
-        setOriginalData(setFilterFunc);
+        deleteRow(data[rowIndex].id);
       },
       removeSelectedRows: (selectedRows: number[]) => {
-        const setFilterFunc = (old: Student[]) =>
-          old.filter((_row, index) => !selectedRows.includes(index));
-        setData(setFilterFunc);
-        setOriginalData(setFilterFunc);
+        selectedRows.forEach((rowIndex) => {
+          deleteRow(data[rowIndex].id);
+        });
       },
     },
   });
 
   return (
-
     <article className="table-container">
       <table>
         <thead>

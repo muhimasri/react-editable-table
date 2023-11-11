@@ -12,7 +12,7 @@ export const EditCell = ({ row, table }) => {
       [row.id]: !old[row.id],
     }));
     if (elName !== "edit") {
-      meta?.revertData(row.index, e.currentTarget.name === "cancel");
+      e.currentTarget.name === "cancel" ? meta?.revertData(row.index) : meta?.updateRow(row.index);
     }
   };
 
